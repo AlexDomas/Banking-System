@@ -57,6 +57,8 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';
+
   movements.forEach((movement, index) => {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
 
@@ -73,3 +75,16 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+
+const createLogin = accounts => {
+  accounts.forEach(account => {
+    account.login = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createLogin(accounts);
+console.log(accounts);
