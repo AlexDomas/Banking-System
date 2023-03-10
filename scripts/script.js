@@ -163,3 +163,23 @@ btnTransfer.addEventListener('click', e => {
     updateUI(currentAccount);
   }
 });
+
+btnClose.addEventListener('click', e => {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.login &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const accountIndex = accounts.findIndex(
+      account => account.login === currentAccount.login
+    );
+
+    accounts.splice(accountIndex, 1);
+
+    containerApp.style.opacity = 0;
+  }
+
+  inputCloseUsername.value = inputClosePin.value = '';
+  labelWelcome.textContent = 'Log in to get started';
+});
