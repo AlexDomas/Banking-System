@@ -74,25 +74,25 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
-
 const calcDisplayBalance = movements => {
   const balance = movements.reduce((acc, movement) => acc + movement, 0);
   labelBalance.textContent = `${balance} EUR`;
 };
 
-const calcDisplaySummary = movements => {
-  const valueIn = movements
+calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = account => {
+  const valueIn = account.movements
     .filter(movement => movement > 0)
     .reduce((acc, movement) => acc + movement, 0);
 
-  const valueOut = movements
+  const valueOut = account.movements
     .filter(movement => movement < 0)
     .reduce((acc, movement) => acc + movement, 0);
 
-  const interest = movements
+  const interest = account.movements
     .filter(movement => movement > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * account.interestRate) / 100)
     .filter(interest => {
       return interest >= 1;
     })
@@ -113,8 +113,26 @@ const createLogin = accounts => {
   });
 };
 
-calcDisplayBalance(account1.movements);
-calcDisplaySummary(account1.movements);
-
 createLogin(accounts);
-console.log(accounts);
+
+let currentAccount;
+
+btnLogin.addEventListener('click', e => {
+  // Prevent form from submitting
+  e.preventDefault();
+  currentAccount = accounts.find(acc => acc.login === inputLoginUsername.value);
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    labelWelcome.textContent = `Welcome, ${
+      currentAccount.owner.split(' ')[0]
+    }!`;
+    containerApp.style.opacity = 100;
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputCloseUsername.value = inputClosePin.value = '';
+    inputLoginPin.blur();
+    displayMovements(currentAccount.movements);
+    calcDisplayBalance(currentAccount.movements);
+    calcDisplaySummary(currentAccount);
+  }
+});
