@@ -47,6 +47,7 @@ const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
 const btnSort = document.querySelector('.btn--sort');
+const btnDefault = document.querySelector('.btn--default-movement');
 
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
@@ -138,6 +139,7 @@ btnLogin.addEventListener('click', e => {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputCloseUsername.value = inputClosePin.value = '';
     inputTransferAmount.value = '';
+    inputLoanAmount.value = '';
     inputLoginPin.blur();
     updateUI(currentAccount);
   }
@@ -164,6 +166,21 @@ btnTransfer.addEventListener('click', e => {
   }
 });
 
+btnLoan.addEventListener('click', e => {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some(movement => movement >= amount * 0.1)
+  ) {
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
 btnClose.addEventListener('click', e => {
   e.preventDefault();
 
@@ -182,4 +199,33 @@ btnClose.addEventListener('click', e => {
 
   inputCloseUsername.value = inputClosePin.value = '';
   labelWelcome.textContent = 'Log in to get started';
+});
+
+let sorted = false;
+
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+
+  const movementsCopy = currentAccount.movements;
+
+  let movs = [];
+
+  if (sorted) {
+    movs = movementsCopy.slice().sort((a, b) => a - b);
+    btnSort.textContent = 'SORT ';
+    btnSort.textContent += '↑';
+  } else {
+    movs = movementsCopy.slice().sort((a, b) => b - a);
+    btnSort.textContent = 'SORT ';
+    btnSort.textContent += '↓';
+  }
+
+  displayMovements(movs);
+  sorted = !sorted;
+});
+
+btnDefault.addEventListener('click', e => {
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements);
 });

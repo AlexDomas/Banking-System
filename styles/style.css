@@ -202,6 +202,16 @@ nav {
   cursor: pointer;
 }
 
+.btn--default-movement {
+  margin-left: auto;
+  margin-bottom: 2rem;
+  border: none;
+  background: none;
+  font-size: 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 /* OPERATIONS */
 .operation {
   border-radius: 1rem;
