@@ -112,7 +112,7 @@ nav {
 }
 
 .balance__value {
-  font-size: 4.5rem;
+  font-size: 3.5rem;
   font-weight: 400;
 }
 
@@ -179,8 +179,8 @@ nav {
 }
 
 .summary__value {
-  font-size: 2.2rem;
-  margin-right: 2.5rem;
+  font-size: 1.8rem;
+  margin-right: 2.3rem;
 }
 
 .summary__value--in,

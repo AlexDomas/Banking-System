@@ -68,7 +68,7 @@ const displayMovements = function (movements) {
             <div class="movements__type movements__type--${type}">
               ${index + 1} ${type}
             </div>
-            <div class="movements__value">${movement}€</div>
+            <div class="movements__value">${movement.toFixed(2)}€</div>
           </div>
   `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -80,7 +80,7 @@ const calcDisplayBalance = account => {
     (acc, movement) => acc + movement,
     0
   );
-  labelBalance.textContent = `${account.balance} EUR`;
+  labelBalance.textContent = `${account.balance.toFixed(2)} €`;
 };
 
 const calcDisplaySummary = account => {
@@ -100,9 +100,9 @@ const calcDisplaySummary = account => {
     })
     .reduce((acc, interest) => acc + interest, 0);
 
-  labelSumIn.textContent = `${valueIn} €`;
-  labelSumOut.textContent = `${Math.abs(valueOut)} €`;
-  labelSumInterest.textContent = `${interest} €`;
+  labelSumIn.textContent = `${valueIn.toFixed(2)} €`;
+  labelSumOut.textContent = `${Math.abs(valueOut).toFixed(2)} €`;
+  labelSumInterest.textContent = `${interest.toFixed(2)} €`;
 };
 
 const createLogin = accounts => {
@@ -131,7 +131,7 @@ btnLogin.addEventListener('click', e => {
 
   currentAccount = accounts.find(acc => acc.login === inputLoginUsername.value);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     labelWelcome.textContent = `Welcome, ${
       currentAccount.owner.split(' ')[0]
     }!`;
@@ -148,7 +148,7 @@ btnLogin.addEventListener('click', e => {
 btnTransfer.addEventListener('click', e => {
   e.preventDefault();
 
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
 
   const receiverAcc = accounts.find(acc => acc.login === inputTransferTo.value);
 
@@ -169,7 +169,7 @@ btnTransfer.addEventListener('click', e => {
 btnLoan.addEventListener('click', e => {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (
     amount > 0 &&
@@ -186,7 +186,7 @@ btnClose.addEventListener('click', e => {
 
   if (
     inputCloseUsername.value === currentAccount.login &&
-    Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const accountIndex = accounts.findIndex(
       account => account.login === currentAccount.login
@@ -206,16 +206,14 @@ let sorted = false;
 btnSort.addEventListener('click', e => {
   e.preventDefault();
 
-  const movementsCopy = currentAccount.movements;
-
   let movs = [];
 
   if (sorted) {
-    movs = movementsCopy.slice().sort((a, b) => a - b);
+    movs = currentAccount.movements.slice().sort((a, b) => a - b);
     btnSort.textContent = 'SORT ';
     btnSort.textContent += '↑';
   } else {
-    movs = movementsCopy.slice().sort((a, b) => b - a);
+    movs = currentAccount.movements.slice().sort((a, b) => b - a);
     btnSort.textContent = 'SORT ';
     btnSort.textContent += '↓';
   }
