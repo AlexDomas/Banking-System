@@ -1,4 +1,4 @@
-let currentAccount;
+let currentAccount, timer;
 
 const createCurrentDateAndTime = account => {
   const now = new Date();
@@ -25,6 +25,29 @@ const createLogin = accounts => {
   });
 };
 
+const startLogOutTimer = () => {
+  const tick = () => {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    labelTimer.textContent = `${min}:${sec}`;
+
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+
+    time--;
+  };
+
+  let time = 300;
+
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
 createLogin(accounts);
 
 btnLogin.addEventListener('click', e => {
@@ -43,9 +66,11 @@ btnLogin.addEventListener('click', e => {
 
     inputLoginUsername.value = inputLoginPin.value = '';
     inputCloseUsername.value = inputClosePin.value = '';
-    inputTransferAmount.value = '';
-    inputLoanAmount.value = '';
     inputLoginPin.blur();
+
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
+
     updateUI(currentAccount);
   }
 });
