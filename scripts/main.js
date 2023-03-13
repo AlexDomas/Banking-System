@@ -13,6 +13,13 @@ const formatMovementDate = (date, locale) => {
   return new Intl.DateTimeFormat(locale).format(date);
 };
 
+const formatCurrency = (value, locale, currency) => {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+  }).format(value);
+};
+
 const generateHTMLWithMovements = (account, movs) => {
   containerMovements.innerHTML = '';
 
@@ -22,13 +29,19 @@ const generateHTMLWithMovements = (account, movs) => {
     const date = new Date(account.movementsDates[index]);
     const displayDate = formatMovementDate(date, account.locale);
 
+    const formattedMov = formatCurrency(
+      movement,
+      account.locale,
+      account.currency
+    );
+
     const html = `
           <div class="movements__row">
             <div class="movements__type movements__type--${type}">
               ${index + 1} ${type}
             </div>
             <div class="movements__date">${displayDate}</div>
-            <div class="movements__value">${movement.toFixed(2)}€</div>
+            <div class="movements__value">${formattedMov}</div>
           </div>
   `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -46,7 +59,11 @@ const calcDisplayBalance = account => {
     (acc, movement) => acc + movement,
     0
   );
-  labelBalance.textContent = `${account.balance.toFixed(2)} €`;
+  labelBalance.textContent = formatCurrency(
+    account.balance,
+    account.locale,
+    account.currency
+  );
 };
 
 const calcDisplaySummary = account => {
@@ -66,9 +83,21 @@ const calcDisplaySummary = account => {
     })
     .reduce((acc, interest) => acc + interest, 0);
 
-  labelSumIn.textContent = `${valueIn.toFixed(2)} €`;
-  labelSumOut.textContent = `${Math.abs(valueOut).toFixed(2)} €`;
-  labelSumInterest.textContent = `${interest.toFixed(2)} €`;
+  labelSumIn.textContent = formatCurrency(
+    valueIn,
+    account.locale,
+    account.currency
+  );
+  labelSumOut.textContent = formatCurrency(
+    Math.abs(valueOut),
+    account.locale,
+    account.currency
+  );
+  labelSumInterest.textContent = formatCurrency(
+    interest,
+    account.locale,
+    account.currency
+  );
 };
 
 const updateUI = function (account) {
