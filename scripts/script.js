@@ -69,7 +69,7 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const formatMovementDate = date => {
+const formatMovementDate = (date, locale) => {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
@@ -79,10 +79,7 @@ const formatMovementDate = date => {
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed <= 7) return `${daysPassed} days ago`;
 
-  const day = `${date.getDate()}`.padStart(2, 0);
-  const month = `${date.getMonth() + 1}`.padStart(2, 0);
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
+  return new Intl.DateTimeFormat(locale).format(date);
 };
 
 const generateHTMLWithMovements = (account, movs) => {
@@ -92,7 +89,7 @@ const generateHTMLWithMovements = (account, movs) => {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(account.movementsDates[index]);
-    const displayDate = formatMovementDate(date);
+    const displayDate = formatMovementDate(date, account.locale);
 
     const html = `
           <div class="movements__row">
