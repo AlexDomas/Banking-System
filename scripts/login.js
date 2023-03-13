@@ -60,6 +60,7 @@ btnLogin.addEventListener('click', e => {
     labelWelcome.textContent = `Welcome, ${
       currentAccount.owner.split(' ')[0]
     }!`;
+    labelWelcome.style.color = 'black';
     containerApp.style.opacity = 100;
 
     createCurrentDateAndTime(currentAccount);
@@ -72,5 +73,8 @@ btnLogin.addEventListener('click', e => {
     timer = startLogOutTimer();
 
     updateUI(currentAccount);
+  } else {
+    labelWelcome.textContent = `Wrong pin-code or login!`;
+    labelWelcome.style.color = '#e52a5a';
   }
 });
