@@ -17,7 +17,7 @@ const account1 = {
     '2023-03-13T10:51:36.790Z',
   ],
   currency: 'EUR',
-  locale: 'pt-PT', // de-DE
+  locale: 'en-US', // de-DE
 };
 
 const account2 = {
@@ -37,7 +37,7 @@ const account2 = {
     '2023-07-26T12:01:20.894Z',
   ],
   currency: 'USD',
-  locale: 'en-US',
+  locale: 'pt-PT',
 };
 
 const accounts = [account1, account2];
@@ -163,14 +163,19 @@ const updateUI = function (account) {
 
 let currentAccount;
 
-const createCurrentDateAndTime = () => {
+const createCurrentDateAndTime = account => {
   const now = new Date();
-  const day = `${now.getDate()}`.padStart(2, 0);
-  const month = `${now.getMonth() + 1}`.padStart(2, 0);
-  const year = now.getFullYear();
-  const hour = `${now.getHours()}`.padStart(2, 0);
-  const min = `${now.getMinutes()}`.padStart(2, 0);
-  labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
+  const options = {
+    hour: 'numeric',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  };
+  labelDate.textContent = new Intl.DateTimeFormat(
+    account.locale,
+    options
+  ).format(now);
 };
 
 btnLogin.addEventListener('click', e => {
@@ -185,7 +190,7 @@ btnLogin.addEventListener('click', e => {
     }!`;
     containerApp.style.opacity = 100;
 
-    createCurrentDateAndTime();
+    createCurrentDateAndTime(currentAccount);
 
     inputLoginUsername.value = inputLoginPin.value = '';
     inputCloseUsername.value = inputClosePin.value = '';
