@@ -570,9 +570,25 @@ h4 {
   text-decoration: none;
 }
 
+.footer__link--hidden {
+  opacity: 0;
+  transform: translateY(8rem);
+}
+
+.footer__nav--hidden {
+  opacity: 0;
+  transform: translateY(8rem);
+}
+
+.footer__copyright--hidden {
+  opacity: 0;
+  transform: translateY(8rem);
+}
+
 .fa {
   font-size: 2.5rem;
   padding: 1rem;
+  color: #5ec576;
 }
 
 .footer__logo {
