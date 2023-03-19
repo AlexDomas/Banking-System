@@ -3,6 +3,10 @@
     overflow-x: hidden;
   }
 
+  .p {
+    font-size: 10px;
+  }
+
   .nav {
     height: 9rem;
   }
@@ -25,32 +29,37 @@
 
   .nav__link:link,
   .nav__link:visited {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
     margin-left: 10px;
   }
 
   h1 {
-    font-size: 3rem;
-  }
-
-  .section__description {
-    font-size: 1.5rem;
-  }
-
-  .section__header {
     font-size: 2.5rem;
   }
 
-  h2 {
+  .section__description {
     font-size: 1rem;
   }
 
+  .section__header {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 0.55rem;
+  }
+
   .header__img {
-    width: 120%;
+    margin-top: 100px;
+    width: 100%;
     grid-column: 2 / 3;
-    grid-row: 2 / span 4;
-    transform: translateY(-8rem);
+    grid-row: 1 / span 4;
+    transform: translateX(-6rem) translateY(-5rem);
+  }
+
+  .btn--scroll-to {
+    font-size: 16px;
   }
 
   .features__header {
@@ -68,12 +77,12 @@
   .features__feature {
     align-self: center;
     justify-self: center;
-    width: 200%;
+    width: 100%;
     font-size: 1.5rem;
   }
 
   .features__img {
-    width: 170%;
+    width: 100%;
   }
 
   .features__icon {
@@ -92,12 +101,11 @@
   .section {
     padding: 5rem 1rem;
     border-top: 1px solid #ddd;
-
     transition: transform 1s, opacity 1s;
   }
 
   .operations__header {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .operations__content--active {
@@ -115,6 +123,11 @@
   .operations__icon svg {
     height: 2rem;
     width: 2rem;
+  }
+
+  .operations__tab {
+    padding: 12px 7px;
+    font-size: 16px;
   }
 
   .slider__btn {
